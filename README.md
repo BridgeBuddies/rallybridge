@@ -25,13 +25,13 @@ To run the UI, cd into the `bridge_ui` directory and run these commands:
 Install (run only if package.json is updated):
 `npm ci`
 
-Build using local testnet (will not hook up into the wallet):
-`npm run build`
+Build & run using local testnet (will not hook up into the wallet):
+`npm start`
 
 Build using mainnet (will hook up to actual wallet):
 `REACT_APP_CLUSTER=mainnet REACT_APP_COVALENT_API_KEY=ckey_0608d4eeb16046b59392b8d788b REACT_APP_SOLANA_API_URL=https://api.mainnet-beta.solana.com/ npm run build`
 
-Run the server:
+Run the server using mainnet:
 `npx serve -s build`
 
 ## Running the Wormhole->Rally CLI manually
