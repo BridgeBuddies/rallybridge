@@ -1,20 +1,68 @@
-# Wormhole v2
+# Rally to Rally-Solana Bridge
+There are two steps for converting a Rally (Ethereum) token to a Rally-Solana token
+1. Convert Rally -> Rally-Wormhole
+2. Convert Rally-Wormhole -> Rally-Solana
 
-This repository contains Certus One's reference node implementation for the Wormhole project.
+For step 1, we are using the Wormhole UI https://github.com/certusone/wormhole/tree/dev.v2/bridge_ui
+For step 2, we are using the Wormhole->Rally CLI https://github.com/rally-dfs/dfs-ts/tree/main/cli
 
-See [DEVELOP.md](DEVELOP.md) for instructions on how to set up a local devnet, and
-[CONTRIBUTING.md](CONTRIBUTING.md) for instructions on how to contribute to this project.
+This project will integrate both steps into an integrated UI experience
 
-See [docs/operations.md](docs/operations.md) for node operator instructions.
+## Running the Rally->Wormhole UI
+Follow the README doc in the `bridge_ui` directory for more information.
 
-![](docs/images/overview.svg)
+Run the following from the root of this repo only once:
+```
+DOCKER_BUILDKIT=1 docker build --target node-export -f Dockerfile.proto -o type=local,dest=. .
+DOCKER_BUILDKIT=1 docker build -f solana/Dockerfile.wasm -o type=local,dest=. solana
+npm ci --prefix ethereum
+npm ci --prefix sdk/js
+npm run build --prefix sdk/js
+```
 
-⚠ **Wormhole v2 is in active development - see "main" branch for the v1 mainnet version** ⚠
+To run the UI, cd into the `bridge_ui` directory and run these commands:
 
-### Audit / Feature Status
+Install (run only if package.json is updated):
+`npm ci`
 
-⚠ **This software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-implied. See the License for the specific language governing permissions and limitations under the License.** Or plainly
-spoken - this is a very complex piece of software which targets a bleeding-edge, experimental smart contract runtime.
-Mistakes happen, and no matter how hard you try and whether you pay someone to audit it, it may eat your tokens, set
-your printer on fire or startle your cat. Cryptocurrencies are a high-risk investment, no matter how fancy.
+Build using local testnet (will not hook up into the wallet):
+`npm run build`
+
+Build using mainnet (will hook up to actual wallet):
+`REACT_APP_CLUSTER=mainnet REACT_APP_COVALENT_API_KEY=ckey_0608d4eeb16046b59392b8d788b REACT_APP_SOLANA_API_URL=https://api.mainnet-beta.solana.com/ npm run build`
+
+Run the server:
+`npx serve -s build`
+
+## Running the Wormhole->Rally CLI manually
+cd into the `wormholetorally/cli` directory
+
+Follow the README doc in the `wormholetorally/cli` directory for more information.
+
+Installation:
+`npm run build`
+
+Run commands:
+`node ./build/cli/src/dfs-cli.js [command]`
+
+Example:
+`dfs-cli get-balance-wormhole -k /Users/brianzhu/.config/solana/whateveryouwant.json `
+
+
+Create the wallet key file (you need to input your wallet recovery phase):
+`solana-keygen recover 'prompt:?key=0/0' --outfile ~/.config/solana/solanaKeyPair.json`
+
+
+Command list:
+
+Get Canonical $RLY Token Balance:
+`node ./build/cli/src/dfs-cli.js get-balance-canonical -k [path to wallet key]`
+
+Get wormhole $RLY Token Balance:
+`node ./build/cli/src/dfs-cli.js get-balance-wormhole -k [path to wallet key]`
+
+Swap wormhole $RLY for canonical $RLY:
+`node ./build/cli/src/dfs-cli.js swap-wormhole-canonical -a 1 -k [path to wallet key] -w [wormhole-rally wallet account number] -c [rally-solana wallet account number]`
+
+Swap canonical $RLY for wormhole $RLY (do the opposite swap):
+`node ./build/cli/src/dfs-cli.js swap-canonical-wormhole -a 1 -k [path to wallet key] -w [wormhole-rally wallet account number] -c [rally-solana wallet account number]`
