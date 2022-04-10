@@ -75,7 +75,7 @@ Get wormhole $RLY Token Balance:
 `node ./build/cli/src/dfs-cli.js get-balance-wormhole -k [path to wallet key]`
 
 Swap wormhole $RLY for canonical $RLY:
-`node ./build/cli/src/dfs-cli.js swap-wormhole-canonical -a 1 -k [path to wallet key] -w [wormhole-rally wallet account number] -c [rally-solana wallet account number]`
+`node ./build/cli/src/dfs-cli.js swap-wormhole-canonical -a 1 -k [path to wallet key]`
 
 Swap canonical $RLY for wormhole $RLY (do the opposite swap):
-`node ./build/cli/src/dfs-cli.js swap-canonical-wormhole -a 1 -k [path to wallet key] -w [wormhole-rally wallet account number] -c [rally-solana wallet account number]`
+`node ./build/cli/src/dfs-cli.js swap-canonical-wormhole -a 1 -k [path to wallet key]`
