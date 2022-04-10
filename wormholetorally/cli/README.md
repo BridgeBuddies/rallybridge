@@ -4,8 +4,9 @@
 DFS CLI allows you to setup fungilble SPL tokens and call Rally token programs from the command line. 
 
 ## run locally
-npm run build
-node ./build/cli/src/dfs-cli.js get-balance-wormhole [command]
+`npm run build`
+
+`node ./build/cli/src/dfs-cli.js get-balance-wormhole [command]`
 
 Example command:
 node ./build/cli/src/dfs-cli.js get-balance-wormhole -k /Users/brianzhu/.config/solana/whateveryouwant.json

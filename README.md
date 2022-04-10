@@ -40,6 +40,12 @@ cd into the `wormholetorally/cli` directory
 Follow the README doc in the `wormholetorally/cli` directory for more information.
 
 Installation:
+First cd into the `wormholetorally/cli` and run:
+`npm i`
+`npm run build`
+
+Next cd into the `wormholetorally/cli` and run:
+`npm i`
 `npm run build`
 
 Run commands:
@@ -49,7 +55,7 @@ Example:
 `dfs-cli get-balance-wormhole -k /Users/brianzhu/.config/solana/whateveryouwant.json `
 
 
-Create the wallet key file (you need to input your wallet recovery phase):
+Create the wallet key file (you need to input your wallet recovery phase):npm i -g dfs-cli
 `solana-keygen recover 'prompt:?key=0/0' --outfile ~/.config/solana/solanaKeyPair.json`
 
 
