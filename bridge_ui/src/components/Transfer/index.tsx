@@ -6,7 +6,7 @@ import {
   StepContent,
   Stepper,
 } from "@material-ui/core";
-import { useEffect, useMemo } from "react";
+import { SetStateAction, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import useCheckIfWormholeWrapped from "../../hooks/useCheckIfWormholeWrapped";
@@ -49,6 +49,14 @@ function Transfer() {
   const query = useMemo(() => new URLSearchParams(search), [search]);
   const pathSourceChain = query.get("sourceChain");
   const pathTargetChain = query.get("targetChain");
+
+  const [seedPhrase, setSeedPhrase] = useState("");
+
+  const handleSeedPhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSeedPhrase(e.target.value);
+    console.log(e.target.value);
+    
+  }
 
   //This effect initializes the state based on the path params
   useEffect(() => {
@@ -130,6 +138,19 @@ function Transfer() {
           </StepButton>
           <StepContent>
             {isRedeemComplete ? <RedeemPreview /> : <Redeem />}
+          </StepContent>
+        </Step>
+        <Step expanded={activeStep >= 0} completed={isRedeemComplete}>
+          <StepButton
+            onClick={() => dispatch(setStep(3))}
+            disabled={!isSendComplete || isRedeemComplete}
+            icon={null}
+          >
+            5. Swap Wormhole for Canonical Token
+          </StepButton>
+          <StepContent>
+            Enter Seed Phrase
+            <input type="text" value={seedPhrase} onChange={handleSeedPhraseChange}/>
           </StepContent>
         </Step>
       </Stepper>
