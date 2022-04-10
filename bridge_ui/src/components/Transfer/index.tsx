@@ -32,6 +32,7 @@ import Source from "./Source";
 import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
+import { swapwormholeRallyForCanonicalSolana } from "../../utils/wormholeSolanaSwap";
 
 function Transfer() {
   useCheckIfWormholeWrapped();
@@ -55,8 +56,11 @@ function Transfer() {
   const handleSeedPhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSeedPhrase(e.target.value);
     console.log(e.target.value);
-    
   }
+
+  // TODO: update keypair and amount
+  const KEYPAIR_STRING = "[00]";
+  const AMOUNT = 1;
 
   //This effect initializes the state based on the path params
   useEffect(() => {
@@ -151,6 +155,11 @@ function Transfer() {
           <StepContent>
             Enter Seed Phrase
             <input type="text" value={seedPhrase} onChange={handleSeedPhraseChange}/>
+            <StepButton
+              onClick={() => swapwormholeRallyForCanonicalSolana(KEYPAIR_STRING, AMOUNT)}
+            >
+              SWAP
+            </StepButton>
           </StepContent>
         </Step>
       </Stepper>
