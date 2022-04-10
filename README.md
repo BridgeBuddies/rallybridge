@@ -24,7 +24,7 @@ npm run build --prefix sdk/js
 To run the UI, cd into the `bridge_ui` directory and first run:
 `npm ci`
 
-Next, cd into the `wormholetorally/cli` and run:
+Next, cd into the `wormholetorally/ts` and run:
 ```
 npm i
 npm run build
