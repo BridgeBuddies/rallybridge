@@ -20,18 +20,27 @@ npm ci --prefix sdk/js
 npm run build --prefix sdk/js
 ```
 
-To run the UI, cd into the `bridge_ui` directory and run these commands:
-
-Install (run only if package.json is updated):
+### Install (run only if package.json is updated):
+To run the UI, cd into the `bridge_ui` directory and first run:
 `npm ci`
 
-Build & run using local testnet (will not hook up into the wallet):
+Next, cd into the `wormholetorally/cli` and run:
+```
+npm i
+npm run build
+npm link
+```
+
+Finally, cd back into the `bridge_ui` directory and run:
+`npm link dfs-js`
+
+### Build & run using local testnet (will not hook up into the wallet):
 `npm start`
 
-Build using mainnet (will hook up to actual wallet):
+### Build using mainnet (will hook up to actual wallet):
 `REACT_APP_CLUSTER=mainnet REACT_APP_COVALENT_API_KEY=ckey_0608d4eeb16046b59392b8d788b REACT_APP_SOLANA_API_URL=https://api.mainnet-beta.solana.com/ npm run build`
 
-Run the server using mainnet:
+### Run the server using mainnet:
 `npx serve -s build`
 
 ## Running the Wormhole->Rally CLI manually
@@ -39,7 +48,7 @@ cd into the `wormholetorally/cli` directory
 
 Follow the README doc in the `wormholetorally/cli` directory for more information.
 
-Installation:
+### Installation:
 First cd into the `wormholetorally/ts` and run:
 ```
 npm i
@@ -56,26 +65,26 @@ Finally, install Solana CLI if you haven't:
 https://docs.solana.com/cli/install-solana-cli-tools 
 
 
-Run commands:
+### Run commands:
 `node ./build/cli/src/dfs-cli.js [command]`
 
 Example:
 `dfs-cli get-balance-wormhole -k /Users/brianzhu/.config/solana/whateveryouwant.json `
 
-Create the wallet key file (you need to input your wallet recovery phase):
+### Create the wallet key file (you need to input your wallet recovery phase):
 `solana-keygen recover 'prompt:?key=0/0' --outfile ~/.config/solana/solanaKeyPair.json`
 
 
-Command list:
+### Command list:
 
-Get Canonical $RLY Token Balance:
+### Get Canonical $RLY Token Balance:
 `node ./build/cli/src/dfs-cli.js get-balance-canonical -k [path to wallet key]`
 
-Get wormhole $RLY Token Balance:
+### Get wormhole $RLY Token Balance:
 `node ./build/cli/src/dfs-cli.js get-balance-wormhole -k [path to wallet key]`
 
-Swap wormhole $RLY for canonical $RLY:
+### Swap wormhole $RLY for canonical $RLY:
 `node ./build/cli/src/dfs-cli.js swap-wormhole-canonical -a 1 -k [path to wallet key]`
 
-Swap canonical $RLY for wormhole $RLY (do the opposite swap):
+### Swap canonical $RLY for wormhole $RLY (do the opposite swap):
 `node ./build/cli/src/dfs-cli.js swap-canonical-wormhole -a 1 -k [path to wallet key]`

@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@metamask/detect-provider": "^1.2.0",
+    "@metaplex/js": "^4.10.1",
     "@project-serum/serum": "^0.13.60",
     "@reduxjs/toolkit": "^1.6.1",
     "@solana/spl-token": "^0.1.6",
@@ -35,8 +36,7 @@
     "react-scripts": "5.0.0",
     "react-table": "^7.7.0",
     "redux": "^3.7.2",
-    "use-debounce": "^7.0.0",
-    "@metaplex/js": "^4.10.1"
+    "use-debounce": "^7.0.0"
   },
   "scripts": {
     "start": "react-app-rewired start",
