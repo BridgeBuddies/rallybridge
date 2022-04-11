@@ -47,15 +47,42 @@ export const getOrCreateAssociatedAccount = async (token: any, pubKey: any) => {
     return accountInfo.address;
 }
 
-
-export async function swapwormholeRallyForCanonicalSolana(mnemonic: any, amount: any) {
+const getKeypairFromMnemonic = (mnemonic: any) => {
     // from https://stackoverflow.com/questions/70668877/unable-to-derive-sollet-wallet-address-using-mnemonic-phrases-in-solana-web3
     let path = "m/44'/501'/0'/0'";
     
     const seed = mnemonicToSeedSync(mnemonic); 
     const derivedSeed = ed.derivePath(path, seed.toString('hex')).key;
     const account = new solanaWeb3.Account(nacl.sign.keyPair.fromSeed(derivedSeed).secretKey);
-    const loadedKeyPair = solanaWeb3.Keypair.fromSecretKey(account.secretKey);
+    return solanaWeb3.Keypair.fromSecretKey(account.secretKey);
+}
+
+export const getWormholeRallyBalance = async (mnemonic: any) => {
+    const loadedKeyPair = getKeypairFromMnemonic(mnemonic);
+
+    const { provider, wallet, connection } = getProvider(loadedKeyPair, 'mainnet-beta')
+    const { payer } = wallet;
+    const canSwap = await canonicalSwapProgram(provider);
+
+    let { decimals } = await canSwap.account.canonicalData.fetch(canonicalData)
+
+    const ten = new BN(10)
+    decimals = new BN(decimals)
+
+    //decimals of destination-
+
+    const wormholeToken = new Token(connection, new PublicKey(wormholeMint), TOKEN_PROGRAM_ID, payer)
+    const { decimals: wormDec } = await wormholeToken.getMintInfo()
+    const wormholeTokenAccount = await getOrCreateAssociatedAccount(wormholeToken, wallet.payer.publicKey);
+    let { amount: wormBalance } = await wormholeToken.getAccountInfo(wormholeTokenAccount);
+
+    const balance = wormBalance.div(ten.pow(new BN(wormDec))).toNumber();
+
+    return balance || 0;
+}
+
+export async function swapwormholeRallyForCanonicalSolana(mnemonic: any, amount: any) {
+    const loadedKeyPair = getKeypairFromMnemonic(mnemonic)
 
     const { provider, wallet, connection } = getProvider(loadedKeyPair, 'mainnet-beta')
     const { payer } = wallet;
