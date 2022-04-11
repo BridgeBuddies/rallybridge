@@ -194,7 +194,7 @@ function Transfer() {
             disabled={isSeedPhraseSubmitted}
             icon={null}
           >
-            5. Enter Phantom Seed Phrase
+            5. Enter Solana Wallet Seed Phrase
           </StepButton>
           {(!isSeedPhraseSubmitted) && 
             <StepContent>
