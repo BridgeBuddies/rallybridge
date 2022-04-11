@@ -34,7 +34,9 @@ npm link
 Afterwards, to fix the timeout issue:
 Go to node_modules -> @solana -> web3.js -> src -> connection.ts
 
-Search for the line `let timeoutMs = this._confirmTransactionInitialTimeout || 60 * 1000;` and increase from 60 -> 120
+Search for the line `let timeoutMs = this._confirmTransactionInitialTimeout || 60 * 1000;` and change it to `let timeoutMs = 120 * 1000;`
+
+In addition, change the `singleGossip` timeout to be `60 * 1000;`
 
 Next, run `npm run build` again in the `wormholetorally/ts` directory
 
