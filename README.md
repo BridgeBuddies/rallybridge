@@ -36,8 +36,7 @@ Go to node_modules -> @solana -> web3.js -> src -> connection.ts
 
 Search for the line `let timeoutMs = this._confirmTransactionInitialTimeout || 60 * 1000;` and increase from 60 -> 120
 
-Finally, `npm run build` again in the `wormholetorally/ts` directory
-
+Next, run `npm run build` again in the `wormholetorally/ts` directory
 
 Finally, cd back into the `bridge_ui` directory and run:
 `npm link dfs-js`
