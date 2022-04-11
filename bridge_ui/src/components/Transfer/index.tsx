@@ -58,8 +58,8 @@ function Transfer() {
     console.log(e.target.value);
   }
 
-  // TODO: update keypair and amount
-  const KEYPAIR_STRING = "[00]";
+  // TODO: update mnemonic and amount
+  const MNEMONIC = "test key pairs";
   const AMOUNT = 1;
 
   //This effect initializes the state based on the path params
@@ -156,7 +156,7 @@ function Transfer() {
             Enter Seed Phrase
             <input type="text" value={seedPhrase} onChange={handleSeedPhraseChange}/>
             <StepButton
-              onClick={() => swapwormholeRallyForCanonicalSolana(KEYPAIR_STRING, AMOUNT)}
+              onClick={() => swapwormholeRallyForCanonicalSolana(MNEMONIC, AMOUNT)}
             >
               SWAP
             </StepButton>

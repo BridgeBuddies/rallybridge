@@ -1,19 +1,19 @@
 import { Provider } from "@project-serum/anchor"
-
 import { TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
-
 import { web3, BN } from '@project-serum/anchor';
-
 import { NodeWallet } from '@metaplex/js';
-
 import {
     canonicalSwapProgram,
     swapWrappedForCanonical,
 } from 'dfs-js';
 
+import { mnemonicToSeedSync } from 'bip39';
+
+const solanaWeb3 = require('@solana/web3.js');
+const nacl= require('tweetnacl');
+const ed = require('ed25519-hd-key');
 
 const { Connection, clusterApiUrl, PublicKey, Keypair } = web3;
-
 
 const canonicalMint = new PublicKey(
     "RLYv2ubRMDLcGG2UyvPmnPmkfuQTsMbg4Jtygc7dmnq"
@@ -40,20 +40,22 @@ export const getProvider = (walletKeyPair: any, cluster: any) => {
     const provider = new Provider(connection, wallet, {});
 
     return { provider, connection, wallet }
-
 }
 
 export const getOrCreateAssociatedAccount = async (token: any, pubKey: any) => {
-
     const accountInfo = await token.getOrCreateAssociatedAccountInfo(pubKey);
     return accountInfo.address;
-
 }
 
 
-export async function swapwormholeRallyForCanonicalSolana(keypair: any, amount: any) {
-
-    const loadedKeyPair = web3.Keypair.fromSecretKey(new Uint8Array(JSON.parse(keypair)));
+export async function swapwormholeRallyForCanonicalSolana(mnemonic: any, amount: any) {
+    // from https://stackoverflow.com/questions/70668877/unable-to-derive-sollet-wallet-address-using-mnemonic-phrases-in-solana-web3
+    let path = "m/44'/501'/0'/0'";
+    
+    const seed = mnemonicToSeedSync(mnemonic); 
+    const derivedSeed = ed.derivePath(path, seed.toString('hex')).key;
+    const account = new solanaWeb3.Account(nacl.sign.keyPair.fromSeed(derivedSeed).secretKey);
+    const loadedKeyPair = solanaWeb3.Keypair.fromSecretKey(account.secretKey);
 
     const { provider, wallet, connection } = getProvider(loadedKeyPair, 'mainnet-beta')
     const { payer } = wallet;
