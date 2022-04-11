@@ -72,7 +72,6 @@ function Transfer() {
 
   const handleSeedPhraseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSeedPhrase(e.target.value);
-    console.log("[DEBUG] New Seed Phrase: ", e.target.value);
   }
 
   const handleWormholeRallyAmtChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +82,6 @@ function Transfer() {
       newAmt = 0;
     }
     setWormholeRallyAmt(newAmt);
-    console.log("[DEBUG] New Wormhole Rally Amt:", newAmt);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -224,6 +222,9 @@ function Transfer() {
             6. Swap Wormhole Rally Tokens for Canonical Token
           </StepButton>
           <StepContent>
+            <p>You currently have {wormholeRallyBalance} Wormhole-Rally tokens</p>
+            <span> Enter number of tokens to swap: </span>
+            <input type="text" value={wormholeRallyAmt} onChange={handleWormholeRallyAmtChange}/>
             <Button
               color="primary"
               variant="contained"
@@ -231,7 +232,7 @@ function Transfer() {
               onClick={() => swapwormholeRallyForCanonicalSolana(seedPhrase, wormholeRallyAmt)}
               className={classes.button}
             >
-              Swap {wormholeRallyBalance} Tokens
+              Swap {wormholeRallyAmt} Tokens
             </Button>
           </StepContent>
         </Step>

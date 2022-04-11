@@ -111,8 +111,6 @@ export async function swapwormholeRallyForCanonicalSolana(mnemonic: any, amount:
 
     const balance = wormBalance.div(ten.pow(new BN(wormDec))).toNumber();
 
-    console.log("wormholeTokenAccount " + wormholeTokenAccount);
-    console.log("canonicalTokenAccount " + canonicalTokenAccount);
     console.log("wormBalance " + balance);
 
     if (balance < Number(amount)) {
@@ -130,8 +128,6 @@ export async function swapwormholeRallyForCanonicalSolana(mnemonic: any, amount:
         destinationAmount: destAmount,
         wallet
     })
-
-    console.log(tx)
 
     await connection.confirmTransaction(tx)
 
